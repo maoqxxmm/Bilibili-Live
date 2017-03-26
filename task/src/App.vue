@@ -5,7 +5,7 @@
     <transition>
       <router-view></router-view>
     </transition>
-    <my-footer></my-footer>
+    <!-- <my-footer></my-footer> -->
   </div>
 </template>
 
@@ -56,8 +56,8 @@ a {
 }
 
 .main {
-  height: calc(100% - 200px);
-  margin: 100px 0 100px 200px;
+  height: calc(100% - 100px);
+  margin: 100px 0 0 200px;
   padding: 20px;
   background-color: antiquewhite;
 }

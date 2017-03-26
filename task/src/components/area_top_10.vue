@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <div id="ent-life"></div>
+        <div :id="areaKey" class="area-top-10"></div>
     </div>
 </template>
 
@@ -8,11 +8,13 @@
     import echarts from 'echarts';
 
     export default {
+        name: 'area-top-10',
+        props: ['areaKey', 'value'],
         data () {
             return {
                 chart: null,
-                opinion: [],
-                opinionData: []
+                option: [],
+                optionData: []
             }
         },
         methods: {
@@ -20,7 +22,7 @@
             this.chart = echarts.init(document.getElementById(id))
             this.chart.setOption({
               title: {
-                text: '“生活娱乐”区前10',
+                text: this.value + '区前10',
                 left: 'center',
                 top: 10,
                 textStyle: {
@@ -49,7 +51,7 @@
               },
               series: [
                 {
-                  name: '“生活娱乐”区前10',
+                  name: this.value + '区前10',
                   type: 'pie',
                   radius: ['50%', '70%'],
                   center: ['50%', '60%'],
@@ -82,8 +84,8 @@
           }
         },
         mounted() {
+            this.$http.get('http://hz.aliyun.xeroe.net:81/json.php?q=/area/home?area=' + this.areaKey + '&order=online&cover=1').then((response) => {
             var _this = this;
-            this.$http.get('http://hz.aliyun.xeroe.net:81/json.php?q=/area/home?area=ent-life&order=online&cover=1').then((response) => {
                 let list = JSON.parse(response.body).data.list.slice(0, 10);
                 let opinion = list.map(function(room) {
                     return room.uname;
@@ -96,8 +98,8 @@
                 })
                 _this.opinion = opinion;
                 _this.opinionData = opinionData;
+                _this.drawPie(this.areaKey)
                 _this.$nextTick(function() {
-                    _this.drawPie('ent-life')
                 })
             })
         }
@@ -105,7 +107,7 @@
 </script>
 
 <style lang="scss">
-#ent-life {
+.area-top-10 {
     width: 100%;
     height: 100%;
 }

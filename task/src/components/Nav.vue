@@ -13,7 +13,7 @@
                         key: 'sing-dance',
                         name: '唱见舞见',
                         href: '/#/sing-dance',
-                        isSelected: true
+                        isSelected: false
                     },
                     {
                         key: 'ent-life',
@@ -61,6 +61,13 @@
                 ]
             }
         },
+        created: function() {
+            var currentLink = location.hash;
+            var regex = new RegExp(currentLink);
+            this.links.forEach(link => {
+                link.href.match(regex) && (link.isSelected = true)
+            })
+        },
         methods: {
             changeLink: function (link) {
                 this.links.forEach(function(item) {
@@ -79,10 +86,11 @@
     nav {
         position: absolute;
         top: 100px;
-        bottom: 100px;
+        bottom: 0;
         width: 200px;
         text-align: center;
         background-color: beige;
+        padding: 30px 0;
 
         a {
             display: inline-block;
